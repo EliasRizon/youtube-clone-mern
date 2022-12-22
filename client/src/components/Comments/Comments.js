@@ -43,6 +43,18 @@ function Comments({ videoId, currentUser, handleLogin }) {
       theme: 'light',
     })
 
+  const notify2 = () =>
+    toast.success('Báo vi phạm bình luận thành công.', {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    })
+
   return (
     <>
       <div className={cn('comment-header')}>
@@ -118,6 +130,8 @@ function Comments({ videoId, currentUser, handleLogin }) {
             currentUser={currentUser}
             setUpdate={setUpdate}
             notify={notify}
+            notify2={notify2}
+            videoId={videoId}
           />
         ))}
       </div>

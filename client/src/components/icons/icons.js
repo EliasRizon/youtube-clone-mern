@@ -512,8 +512,8 @@ export const LikeIcon = ({
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M0.840695 10.0817H4.91305C5.13535 10.0828 5.34819 10.1792 5.50502 10.3499C5.66185 10.5206 5.74989 10.7517 5.74989 10.9926V23.0891C5.74889 23.3296 5.66052 23.5601 5.50391 23.7305C5.34729 23.901 5.13504 23.9978 4.91305 24H0.840695C0.618041 23.9989 0.404797 23.9026 0.247355 23.732C0.0899135 23.5614 0.00101438 23.3303 0 23.0891V10.9926C0.00101438 10.7513 0.0899135 10.5203 0.247355 10.3497C0.404797 10.1791 0.618041 10.0828 0.840695 10.0817ZM11.5229 1.01029C11.9625 -1.42156 15.6338 0.81808 15.8768 4.73327C15.931 6.12499 15.8261 7.51864 15.5644 8.88245H20.813C22.9918 8.97855 24.8969 10.6708 23.551 13.4495C23.8595 14.6612 23.9058 16.0819 23.0728 16.646C23.177 18.5555 22.6872 19.7422 21.7732 20.6782C21.7558 21.5497 21.5184 22.3994 21.0868 23.1351C20.3811 24.2131 19.8103 23.9708 18.6997 23.9708H9.82996C8.42623 23.9708 7.66266 23.5529 6.74484 22.2994V11.5901C9.40961 10.8254 10.8133 6.91023 11.5229 4.3405V0.997752V1.01029Z"
       fill={pathFill}
     />
@@ -530,8 +530,8 @@ export const ShareIcon = ({ width = '24px', height = '24px', className }) => (
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      fill-rule="evenodd"
-      clip-rule="evenodd"
+      fillRule="evenodd"
+      clipRule="evenodd"
       d="M24 7.4086L17.1767 14.8172V11.1264C12.8621 10.1655 9.45366 11.2247 6.86499 14.7523C7.3144 7.49719 11.925 3.99601 17.1765 3.76424L17.1767 0L24 7.4086Z"
       fill="white"
     />
@@ -554,35 +554,35 @@ export const AddImgIcon = ({ width = '24px', height = '24px', className }) => (
     <path
       d="M9 10C10.1046 10 11 9.10457 11 8C11 6.89543 10.1046 6 9 6C7.89543 6 7 6.89543 7 8C7 9.10457 7.89543 10 9 10Z"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M13 2H9C4 2 2 4 2 9V15C2 20 4 22 9 22H15C20 22 22 20 22 15V10"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M15.75 5H21.25"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
     />
     <path
       d="M18.5 7.75V2.25"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
     />
     <path
       d="M2.66992 18.9501L7.59992 15.6401C8.38992 15.1101 9.52992 15.1701 10.2399 15.7801L10.5699 16.0701C11.3499 16.7401 12.6099 16.7401 13.3899 16.0701L17.5499 12.5001C18.3299 11.8301 19.5899 11.8301 20.3699 12.5001L21.9999 13.9001"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )
@@ -602,42 +602,42 @@ export const AddVideoIcon = ({
   >
     <path
       d="M22 12C22 13.31 21.75 14.57 21.28 15.72C20.63 15.27 19.84 15 19 15C18.06 15 17.19 15.33 16.5 15.88C15.58 16.61 15 17.74 15 19C15 19.75 15.21 20.46 15.58 21.06C15.62 21.13 15.67 21.2 15.73 21.27C14.58 21.74 13.32 22 12 22C6.48 22 2 17.52 2 12C2 6.48 6.48 2 12 2C17.52 2 22 6.48 22 12Z"
-      stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      stroke="whitefill-rule"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M9.37988 12.0001V10.6101C9.37988 8.89008 10.5999 8.18007 12.0899 9.04007L13.2899 9.73007L14.4899 10.4201C15.9799 11.2801 15.9799 12.6901 14.4899 13.5501L13.2899 14.2401L12.0899 14.9301C10.5999 15.7901 9.37988 15.0901 9.37988 13.3601V12.0001Z"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M23 19C23 19.75 22.79 20.46 22.42 21.06C22.21 21.42 21.94 21.74 21.63 22C20.93 22.63 20.01 23 19 23C17.54 23 16.27 22.22 15.58 21.06C15.21 20.46 15 19.75 15 19C15 17.74 15.58 16.61 16.5 15.88C17.19 15.33 18.06 15 19 15C21.21 15 23 16.79 23 19Z"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M20.49 18.98H17.51"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M19 17.52V20.51"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )
@@ -658,23 +658,23 @@ export const YourChannelIcon = ({
     <path
       d="M13.144 13.9359C13.06 13.9239 12.952 13.9239 12.856 13.9359C10.744 13.8639 9.06396 12.1359 9.06396 10.0119C9.06396 7.83993 10.816 6.07593 13 6.07593C15.172 6.07593 16.936 7.83993 16.936 10.0119C16.924 12.1359 15.256 13.8639 13.144 13.9359Z"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M21.0881 21.8561C18.9521 23.8121 16.1201 25.0001 13.0001 25.0001C9.88011 25.0001 7.04811 23.8121 4.91211 21.8561C5.03211 20.7281 5.75211 19.6241 7.03611 18.7601C10.3241 16.5761 15.7001 16.5761 18.9641 18.7601C20.2481 19.6241 20.9681 20.7281 21.0881 21.8561Z"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M13 25C19.6274 25 25 19.6274 25 13C25 6.37258 19.6274 1 13 1C6.37258 1 1 6.37258 1 13C1 19.6274 6.37258 25 13 25Z"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )
@@ -691,17 +691,17 @@ export const StudioIcon = ({ width = '24px', height = '24px', className }) => (
     <path
       d="M25 9.69142V18.7261C25 20.2054 24.2075 21.5792 22.9263 22.3321L15.0804 26.8626C13.7991 27.6023 12.2141 27.6023 10.9197 26.8626L3.07376 22.3321C1.79253 21.5924 1 20.2186 1 18.7261V9.69142C1 8.21206 1.79253 6.83831 3.07376 6.08542L10.9197 1.55488C12.2009 0.815202 13.7859 0.815202 15.0804 1.55488L22.9263 6.08542C24.2075 6.83831 25 8.19885 25 9.69142Z"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M10.0349 14.2087V12.6237C10.0349 10.5896 11.4747 9.75748 13.2314 10.7745L14.6051 11.567L15.9788 12.3595C17.7355 13.3766 17.7355 15.0409 15.9788 16.058L14.6051 16.8505L13.2314 17.6429C11.4747 18.66 10.0349 17.8279 10.0349 15.7938V14.2087Z"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )
@@ -718,23 +718,23 @@ export const LogoutIcon = ({ width = '24px', height = '24px', className }) => (
     <path
       d="M9.08423 7.8216C9.47581 3.27421 11.8127 1.41736 16.9285 1.41736H17.0927C22.739 1.41736 25.0001 3.67842 25.0001 9.32477V17.5606C25.0001 23.2069 22.739 25.468 17.0927 25.468H16.9285C11.8506 25.468 9.5137 23.6364 9.09686 19.1648"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M16.7896 13.4301H2.41479"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M5.2316 9.19849L1 13.4301L5.2316 17.6617"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )
@@ -751,57 +751,57 @@ export const DeleteIcon = ({ width = '24px', height = '24px', className }) => (
     <path
       d="M7 14H12"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M7 5.95996L3.25 2.20996"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M6.96002 2.25L3.21002 6"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M7 10H15"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M10 2H16C19.33 2.18 21 3.41 21 7.99V16"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M3 9.00977V15.9798C3 19.9898 4 21.9998 9 21.9998H12C12.17 21.9998 14.84 21.9998 15 21.9998"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M21 16L15 22V19C15 17 16 16 18 16H21Z"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )
@@ -818,37 +818,37 @@ export const TrashIcon = ({ width = '24px', height = '24px', className }) => (
     <path
       d="M21 5.97998C17.67 5.64998 14.32 5.47998 10.98 5.47998C9 5.47998 7.02 5.57998 5.04 5.77998L3 5.97998"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M8.5 4.97L8.72 3.66C8.88 2.71 9 2 10.69 2H13.31C15 2 15.13 2.75 15.28 3.67L15.5 4.97"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M18.85 9.14014L18.2 19.2101C18.09 20.7801 18 22.0001 15.21 22.0001H8.79002C6.00002 22.0001 5.91002 20.7801 5.80002 19.2101L5.15002 9.14014"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M10.33 16.5H13.66"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M9.5 12.5H14.5"
       stroke="white"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )
@@ -865,26 +865,26 @@ export const EditIcon = ({ width = '24px', height = '24px', className }) => (
     <path
       d="M13.26 3.60022L5.05 12.2902C4.74 12.6202 4.44 13.2702 4.38 13.7202L4.01 16.9602C3.88 18.1302 4.72 18.9302 5.88 18.7302L9.1 18.1802C9.55 18.1002 10.18 17.7702 10.49 17.4302L18.7 8.74022C20.12 7.24022 20.76 5.53022 18.55 3.44022C16.35 1.37022 14.68 2.10022 13.26 3.60022Z"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M11.89 5.0498C12.32 7.8098 14.56 9.9198 17.34 10.1998"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
     <path
       d="M3 22H21"
       stroke="white"
-      stroke-width="1.5"
-      stroke-miterlimit="10"
-      stroke-linecap="round"
-      stroke-linejoin="round"
+      strokeWidth="1.5"
+      strokeMiterlimit="10"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
   </svg>
 )

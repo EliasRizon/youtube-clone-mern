@@ -7,14 +7,24 @@ export const googleAuth = async (req, res, next) => {
   try {
     const user = await User.findOne({ email: req.body.email })
     if (user) {
-      const token = jwt.sign({ id: user._id }, process.env.JWT)
-      res.status(200).json({ result: user, token })
+      if (user.role === 'admin' || user.role === 'user') {
+        const token = jwt.sign(
+          { id: user._id, role: user.role },
+          process.env.JWT,
+        )
+        res.status(200).json({ result: user, token })
+      } else {
+        res.status(200).json({ message: user.role })
+      }
     } else {
       const newUser = new User({
         ...req.body,
       })
       const savedUser = await newUser.save()
-      const token = jwt.sign({ id: savedUser._id }, process.env.JWT)
+      const token = jwt.sign(
+        { id: savedUser._id, role: savedUser.role },
+        process.env.JWT,
+      )
       res.status(200).json({ result: savedUser, token })
     }
   } catch (err) {
@@ -217,6 +227,44 @@ export const getWatched = async (req, res, next) => {
     ])
     res.status(200).json({ watchedVideos })
   } catch (err) {
+    next(err)
+  }
+}
+
+export const block = async (req, res, next) => {
+  const userId = req.params.userId
+  const message = req.body.blockMessage
+  const role = req.role
+
+  try {
+    if (role === 'admin') {
+      if (message === '') {
+        await User.findByIdAndUpdate(userId, { role: 'blocked' })
+        res.status(200).json({ message: 'Blocked' })
+      } else {
+        await User.findByIdAndUpdate(userId, { role: message })
+        res.status(200).json({ message: 'Blocked' })
+      }
+    } else {
+      return next(createError(403, 'You not an admin!'))
+    }
+  } catch (error) {
+    next(err)
+  }
+}
+
+export const unBlock = async (req, res, next) => {
+  const userId = req.params.userId
+  const role = req.role
+
+  try {
+    if (role === 'admin') {
+      await User.findByIdAndUpdate(userId, { role: 'user' })
+      res.status(200).json({ message: 'Unblock successfully' })
+    } else {
+      return next(createError(403, 'You not an admin!'))
+    }
+  } catch (error) {
     next(err)
   }
 }

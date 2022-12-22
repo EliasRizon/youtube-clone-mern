@@ -2,8 +2,8 @@ import styles from './StudioPendingBox.module.scss'
 import classNames from 'classnames/bind'
 import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
-import DeleteButton from '~/components/Buttons/DeleteButton'
-import EditButton from '~/components/Buttons/EditButton'
+import DeleteButton from '~/components/Button/DeleteButton'
+import EditButton from '~/components/Button/EditButton'
 
 const cn = classNames.bind(styles)
 

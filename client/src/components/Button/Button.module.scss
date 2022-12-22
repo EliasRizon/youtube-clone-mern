@@ -1,0 +1,40 @@
+.wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+// Button types
+.red {
+  color: var(--text-color);
+  background-color: rgb(200, 0, 0);
+
+  &:hover {
+    background-color: rgb(230, 0, 0);
+  }
+}
+
+.primary {
+  color: var(--text-color);
+  background-color: var(--primary-color);
+
+  &:hover {
+    background-color: #af3a1a;
+  }
+}
+
+.normal {
+  background-color: var(--button-background-color);
+
+  &:hover {
+    background-color: var(--hover-color);
+  }
+}
+
+//Button sizes
+.small {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: 18px;
+}

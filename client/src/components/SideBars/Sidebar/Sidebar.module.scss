@@ -43,3 +43,36 @@
 .nav-wrap {
   width: 204px;
 }
+
+.wrap {
+  display: flex;
+  padding: 0 12px;
+  width: 100%;
+  align-self: center;
+}
+
+.icon {
+  margin-right: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  line-height: 40px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  color: var(--text-color);
+  border-radius: 10px;
+  height: 40px;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  width: 100%;
+
+  &:hover {
+    background-color: #4b4f58;
+  }
+}

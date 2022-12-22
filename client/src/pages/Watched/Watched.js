@@ -15,7 +15,6 @@ function Watched() {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     const getdata = async () => {
       const { data } = await getWatched()
-      console.log(data.watchedVideos)
       setVideos(data.watchedVideos)
       setLoading(false)
     }

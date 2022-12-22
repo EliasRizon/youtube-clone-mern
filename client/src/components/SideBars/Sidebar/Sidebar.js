@@ -2,22 +2,52 @@ import classNames from 'classnames/bind'
 import styles from './Sidebar.module.scss'
 import { MenuItem } from './Menu'
 import {
-  FeedbackIcon,
-  HelpIcon,
   HomeIcon,
   HomeIconActive,
   LikeIcon,
   MyVideosIcon,
-  SettingsIcon,
   TopViewsIcon,
   TopViewsIconActive,
   WatchedIcon,
   WatchedIconActive,
 } from '../../icons'
+import { useDispatch } from 'react-redux'
+import { useGoogleLogin } from '@react-oauth/google'
+import axios from 'axios'
+import { signin } from '~/actions/authActions'
+import { useState } from 'react'
 
 const cn = classNames.bind(styles)
 
 function Sidebar() {
+  const [currentUser] = useState(JSON.parse(localStorage.getItem('profile')))
+
+  const dispatch = useDispatch()
+
+  const handleLogin = useGoogleLogin({
+    onSuccess: async (respose) => {
+      try {
+        const res = await axios.get(
+          'https://www.googleapis.com/oauth2/v3/userinfo',
+          {
+            headers: {
+              Authorization: `Bearer ${respose.access_token}`,
+            },
+          },
+        )
+        dispatch(
+          signin({
+            name: res.data.name,
+            email: res.data.email,
+            picture: res.data.picture,
+          }),
+        )
+      } catch (err) {
+        console.log(err)
+      }
+    },
+  })
+
   return (
     <aside className={cn('wrapper')}>
       <nav className={cn('nav-wrap')}>
@@ -38,23 +68,54 @@ function Sidebar() {
           ></MenuItem> */}
         </div>
         <div className={cn('nav-box')}>
-          <MenuItem
-            to={'/feed/history'}
-            title="Video đã xem"
-            icon={<WatchedIcon />}
-            activeIcon={<WatchedIconActive />}
-          ></MenuItem>
-          <MenuItem
-            to={'/studio/videos/upload'}
-            title="Video của bạn"
-            icon={<MyVideosIcon />}
-          ></MenuItem>
-          <MenuItem
-            to={'/liked'}
-            title="Video đã thích"
-            icon={<LikeIcon pathFill="white" />}
-            activeIcon={<LikeIcon pathFill="var(--primary-color)" />}
-          ></MenuItem>
+          {currentUser?.result ? (
+            <>
+              <MenuItem
+                to={'/feed/history'}
+                title="Video đã xem"
+                icon={<WatchedIcon />}
+                activeIcon={<WatchedIconActive />}
+              ></MenuItem>
+              <MenuItem
+                to={'/studio/videos/upload'}
+                title="Video của bạn"
+                icon={<MyVideosIcon />}
+              ></MenuItem>
+              <MenuItem
+                to={'/liked'}
+                title="Video đã thích"
+                icon={<LikeIcon pathFill="white" />}
+                activeIcon={<LikeIcon pathFill="var(--primary-color)" />}
+              ></MenuItem>
+            </>
+          ) : (
+            <>
+              <button className={cn('menu-item')} onClick={handleLogin}>
+                <div className={cn('wrap')}>
+                  <span className={cn('icon')}>
+                    <WatchedIcon />
+                  </span>
+                  <span className={cn('title')}>Video đã xem</span>
+                </div>
+              </button>
+              <button className={cn('menu-item')} onClick={handleLogin}>
+                <div className={cn('wrap')}>
+                  <span className={cn('icon')}>
+                    <MyVideosIcon />
+                  </span>
+                  <span className={cn('title')}>Video của bạn</span>
+                </div>
+              </button>
+              <button className={cn('menu-item')} onClick={handleLogin}>
+                <div className={cn('wrap')}>
+                  <span className={cn('icon')}>
+                    <LikeIcon pathFill="white" />
+                  </span>
+                  <span className={cn('title')}>Video đã thích</span>
+                </div>
+              </button>
+            </>
+          )}
         </div>
         <div className={cn('nav-box')}>
           <h3 className={cn('nav-box-title')}>Khám phá</h3>
@@ -75,7 +136,7 @@ function Sidebar() {
             icon={<TopSubcribedIcon />}
           ></MenuItem> */}
         </div>
-        <div className={cn('nav-box')}>
+        {/* <div className={cn('nav-box')}>
           <MenuItem
             to={'/notyet'}
             title="Cài đặt"
@@ -94,7 +155,7 @@ function Sidebar() {
             icon={<FeedbackIcon />}
             unusable
           ></MenuItem>
-        </div>
+        </div> */}
       </nav>
       <div className={cn('footer')}>
         <div className={cn('footer-box')}>

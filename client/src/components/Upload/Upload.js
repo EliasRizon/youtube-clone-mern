@@ -9,6 +9,7 @@ import { addVideo, editVideo } from '~/actions/videoActions'
 import PreviewImg from './PreviewImg'
 import PreviewVideo from './PreviewVideo'
 import { storage } from '~/firebase'
+import TextArea from '../TextArea'
 
 const cn = classNames.bind(styles)
 
@@ -146,27 +147,24 @@ function Upload({ notify, setOpen, edit, title, videoEdit }) {
           <h2 className={cn('detail-title')}>Chi tiết</h2>
           <div className={cn('input-field')}>
             <div className={cn('left-form')}>
-              <div className={cn('title-box')}>
-                <div className={cn('title-text')}>Tiêu đề (bắt buộc)</div>
-                <textarea
-                  className={cn('text-input')}
-                  placeholder="Thêm tiêu đề để mô tả video của bạn"
-                  name="title"
-                  value={inputs.title}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className={cn('desc-box')}>
-                <div className={cn('title-text')}>Mô tả</div>
-                <textarea
-                  className={cn('text-input')}
-                  rows="6"
-                  placeholder="Giới thiệu về video của bạn cho người xem"
-                  name="desc"
-                  value={inputs.desc}
-                  onChange={handleChange}
-                />
-              </div>
+              <TextArea
+                title="Tiêu đề (bắt buộc)"
+                placeholder="Thêm tiêu đề để mô tả video của bạn"
+                value={inputs.title}
+                onChange={handleChange}
+                name="title"
+                rows="2"
+              />
+
+              <TextArea
+                className={cn('desc-box')}
+                title="Mô tả"
+                placeholder="Giới thiệu về video của bạn cho người xem"
+                value={inputs.desc}
+                onChange={handleChange}
+                name="desc"
+                rows="6"
+              />
               <div className={cn('header-2')}>Hình thu nhỏ</div>
               <div className={cn('header-2-detail')}>
                 Chọn hoặc tải một hình ảnh lên để thể hiện nội dung trong video

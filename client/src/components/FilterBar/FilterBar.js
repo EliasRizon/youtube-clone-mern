@@ -22,6 +22,7 @@ function FilterBar() {
       {filterItems.map((item) => {
         return (
           <Link
+            key={item._id}
             className={cn('filter-bar-link')}
             to={`/results?search_query=${item.content}`}
           >

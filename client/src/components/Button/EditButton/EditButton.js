@@ -1,6 +1,12 @@
 import classNames from 'classnames/bind'
 import { useState } from 'react'
 import { toast } from 'react-toastify'
+import {
+  TooltipContent,
+  TooltipTrigger,
+  Tooltip,
+} from '~/components/Tooltip/Tooltip.tsx'
+import TooltipTag from '~/components/Tooltip/TooltipTag'
 import { EditIcon } from '../../icons'
 import Upload from '../../Upload'
 import styles from './EditButton.module.scss'
@@ -24,14 +30,21 @@ function EditButton({ video }) {
 
   return (
     <>
-      <button
-        onClick={() => {
-          setOpen(true)
-        }}
-        className={cn('option-icon')}
-      >
-        <EditIcon />
-      </button>
+      <Tooltip placement="bottom">
+        <TooltipTrigger asChild>
+          <button
+            onClick={() => {
+              setOpen(true)
+            }}
+            className={cn('option-icon')}
+          >
+            <EditIcon />
+          </button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <TooltipTag>Chỉnh sửa</TooltipTag>
+        </TooltipContent>
+      </Tooltip>
       <div className={cn('edit-form')}>
         {open && (
           <Upload

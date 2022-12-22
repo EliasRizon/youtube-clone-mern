@@ -1,5 +1,6 @@
 import classNames from 'classnames/bind'
 import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { fetchVideos } from '~/api/api'
 import Loading from '~/components/Loading'
 import VideoBox from './VideoBox/VideoBox'
@@ -10,6 +11,7 @@ const cn = classNames.bind(styles)
 function VideoBoxs() {
   const [videos, setVideos] = useState([])
   const [loading, setLoading] = useState(true)
+  const { reload } = useSelector((store) => store.videoReducer)
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
@@ -19,7 +21,7 @@ function VideoBoxs() {
       setLoading(false)
     }
     getdata()
-  }, [])
+  }, [reload])
 
   if (loading) {
     return <Loading />

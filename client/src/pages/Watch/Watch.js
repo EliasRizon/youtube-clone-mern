@@ -1,22 +1,32 @@
 import styles from './Watch.module.scss'
 import classNames from 'classnames/bind'
-import { Link, useSearchParams } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import WatchVideoBoxs from '~/components/Boxs/WatchVideoBoxs/WatchVideoBoxs'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addView, dislike, getVideo, like } from '~/actions/videoActions'
+import {
+  addView,
+  deleteVideo,
+  dislike,
+  getVideo,
+  like,
+} from '~/actions/videoActions'
 import { addWatchedVideo, fetchChannel } from '~/api/api'
 import { ShareIcon } from '~/components/icons'
 import Moment from 'react-moment'
 import 'moment/locale/vi'
 import { signin, sub, unsub } from '~/actions/authActions'
-import SubcribeButton from '~/components/Buttons/SubcribeButton'
-import LikeButton from '~/components/Buttons/LikeButton'
+import SubcribeButton from '~/components/Button/SubcribeButton'
+import LikeButton from '~/components/Button/LikeButton'
 import Comments from '~/components/Comments'
 import { useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
 import Loading from '~/components/Loading'
 import FilterBar from '~/components/FilterBar'
+import { toast } from 'react-toastify'
+import DeleteButton from '~/components/Button/DeleteButton'
+import { deleteObject, ref } from 'firebase/storage'
+import { storage } from '~/firebase'
 
 const cn = classNames.bind(styles)
 
@@ -27,6 +37,7 @@ function Watch() {
   const [currentUser, setCurrentUser] = useState(
     JSON.parse(localStorage.getItem('profile')),
   )
+  const navigate = useNavigate()
 
   const dispatch = useDispatch()
 
@@ -84,6 +95,50 @@ function Watch() {
     },
   })
 
+  const notify = () =>
+    toast.success('Đã sao chép đường liên kết vào bảng nhớ tạm.', {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    })
+
+  const deleteNotify = () =>
+    toast.success('Xóa video thành công.', {
+      position: 'top-center',
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'light',
+    })
+
+  const handleShare = () => {
+    const url = window.location.href
+    navigator.clipboard.writeText(url)
+    notify()
+  }
+
+  const handleDelete = () => {
+    const videoRef = ref(storage, video.videoPath)
+    const imageRef = ref(storage, video.imgPath)
+    try {
+      deleteObject(videoRef)
+      deleteObject(imageRef)
+      dispatch(deleteVideo(video._id))
+      navigate('/')
+      deleteNotify()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     if (video?.userId) {
@@ -126,7 +181,7 @@ function Watch() {
             className={cn('video-player')}
             src={video.videoUrl}
             controls
-            // autoPlay
+            autoPlay
           ></video>
         }
         <div className={cn('video-info-wrapper')}>
@@ -164,6 +219,14 @@ function Watch() {
               />
             </div>
             <div className={cn('options-wrapper')}>
+              {currentUser?.result.role === 'admin' && (
+                <DeleteButton
+                  className={cn('delete-btn')}
+                  video={video}
+                  handle={handleDelete}
+                />
+              )}
+
               <LikeButton
                 video={video}
                 currentUser={currentUser}
@@ -171,7 +234,7 @@ function Watch() {
                 handleDislike={handleDislike}
                 handleLogin={handleLogin}
               />
-              <button className={cn('share-btn')}>
+              <button className={cn('share-btn')} onClick={handleShare}>
                 <ShareIcon />
                 <span className={cn('like-btn-text')}>Chia sẻ</span>
               </button>

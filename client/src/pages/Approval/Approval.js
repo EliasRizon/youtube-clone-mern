@@ -28,21 +28,27 @@ function Approval() {
   return (
     <div className={cn('wrapper')}>
       <table className={cn('table')}>
-        <tr>
-          <th style={{ textAlign: 'left', width: '45%', paddingLeft: '24px' }}>
-            Video
-          </th>
-          <th style={{ textAlign: 'left', width: '16%', padding: '0 12px' }}>
-            Kênh
-          </th>
-          <th style={{ textAlign: 'right', width: '16%', padding: '0 12px' }}>
-            Ngày tải lên
-          </th>
-          <th style={{ textAlign: 'right', padding: '0 12px' }}>Tùy chọn</th>
-        </tr>
-        {videos.map((video) => (
-          <ApprovalVideoBox key={video._id} video={video} />
-        ))}
+        <thead>
+          <tr>
+            <th
+              style={{ textAlign: 'left', width: '45%', paddingLeft: '24px' }}
+            >
+              Video
+            </th>
+            <th style={{ textAlign: 'left', width: '16%', padding: '0 12px' }}>
+              Kênh
+            </th>
+            <th style={{ textAlign: 'right', width: '16%', padding: '0 12px' }}>
+              Ngày tải lên
+            </th>
+            <th style={{ textAlign: 'right', padding: '0 12px' }}>Tùy chọn</th>
+          </tr>
+        </thead>
+        <tbody>
+          {videos.map((video) => (
+            <ApprovalVideoBox key={video._id} video={video} />
+          ))}
+        </tbody>
       </table>
       {videos.length === 0 && (
         <div className={cn('no-video')}>Không có video nào!</div>

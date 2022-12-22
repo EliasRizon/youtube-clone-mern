@@ -4,9 +4,12 @@ import * as api from '../api/api.js'
 export const signin = (formData) => async (dispatch) => {
   try {
     const { data } = await api.signIn(formData)
-
-    dispatch({ type: AUTH, data })
-    window.location.reload(false)
+    if (data.message) {
+      window.location.href = `/block?message=${data.message}`
+    } else {
+      dispatch({ type: AUTH, data })
+      window.location.reload(false)
+    }
   } catch (error) {
     console.log(error)
   }

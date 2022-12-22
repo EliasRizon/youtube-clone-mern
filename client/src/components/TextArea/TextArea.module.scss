@@ -1,0 +1,28 @@
+.title-box {
+  border: solid 1px #606060;
+  border-radius: 4px;
+  padding: 0 12px 11px;
+
+  &:hover {
+    border-color: var(--text-color);
+  }
+
+  &:focus-within {
+    border-color: var(--blue);
+  }
+
+  &:focus-within .title-text {
+    color: var(--blue);
+  }
+}
+
+.title-text {
+  font-size: 13px;
+  margin: 8px 0 3px;
+  color: var(--text-color-darker);
+}
+
+.text-input {
+  font-size: 16px;
+  width: 100%;
+}

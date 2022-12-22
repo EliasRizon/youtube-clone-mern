@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
 import styles from './SubcribeButton.module.scss'
 import { useState } from 'react'
+import ConfirmOverlay from '~/components/ConfirmOverlay'
 
 const cn = classNames.bind(styles)
 
@@ -36,30 +37,12 @@ function SubcribeButton({ currentUser, channel, handleSub, handleLogin }) {
         </button>
       )}
       {open && (
-        <div className={cn('confirm-overlay')} onClick={() => setOpen(false)}>
-          <div className={cn('confirm-wrapper')}>
-            <div
-              className={cn('confirm-text')}
-            >{`Hủy đăng ký ${channel.name}`}</div>
-            <div className={cn('confirm-btn')}>
-              <button
-                className={cn('close-btn')}
-                onClick={() => setOpen(false)}
-              >
-                Hủy
-              </button>
-              <button
-                onClick={() => {
-                  setOpen(false)
-                  handleSub()
-                }}
-                className={cn('close-btn', 'accept-btn')}
-              >
-                Hủy đăng ký
-              </button>
-            </div>
-          </div>
-        </div>
+        <ConfirmOverlay
+          setOpen={setOpen}
+          title={`Hủy đăng ký ${channel.name}`}
+          confirmText="Hủy đăng ký"
+          onConfirm={handleSub}
+        />
       )}
     </>
   )

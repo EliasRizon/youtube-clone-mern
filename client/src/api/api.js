@@ -23,8 +23,10 @@ export const sub = (channelId) => API.patch(`/users/sub/${channelId}`)
 export const unsub = (channelId) => API.patch(`/users/unsub/${channelId}`)
 export const addWatchedVideo = (videoId) =>
   API.patch(`/users/watched/add/${videoId}`)
+export const unBlock = (userId) => API.patch(`/users/unblock/${userId}`)
 
 export const signIn = (data) => API.post('/users/google', data)
+export const block = (userId, data) => API.post(`/users/block/${userId}`, data)
 
 //Video
 export const fetchVideos = () => API.get(`/videos`)
@@ -51,12 +53,17 @@ export const deleteVideo = (videoId) => API.delete(`/videos/delete/${videoId}`)
 
 //Comment
 export const getComments = (videoId) => API.get(`/comment/${videoId}`)
+export const getComment = (commentId) => API.get(`/comment/get/${commentId}`)
+export const getReportedComment = () => API.get(`/comment/reported/get`)
 
-export const addComment = (comment, videoId) =>
-  API.post(`/comment/add/${videoId}`, { comment })
+export const reportComment = (commentId, data) =>
+  API.post(`comment/report/${commentId}`, data)
 
 export const deleteComment = (commentId) =>
   API.delete(`/comment/delete/${commentId}`)
+
+export const addComment = (comment, videoId) =>
+  API.post(`/comment/add/${videoId}`, { comment })
 
 //Search
 export const getSearchResult = (value) => API.get(`/search/get/${value}`)

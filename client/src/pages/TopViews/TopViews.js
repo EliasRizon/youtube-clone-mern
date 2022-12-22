@@ -28,11 +28,13 @@ function TopViews() {
   return (
     <>
       <div className={cn('wrapper-title')}>
-        <img
+        <div
           className={cn('title-img')}
-          src="https://www.youtube.com/img/trending/avatar/trending_avatar.png"
-          alt="title img"
-        />
+          style={{
+            backgroundImage:
+              'url(https://www.youtube.com/img/trending/avatar/trending_avatar.png)',
+          }}
+        ></div>
 
         <h2 className={cn('channel-name')}>Xu hướng</h2>
       </div>

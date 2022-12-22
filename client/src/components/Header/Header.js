@@ -4,8 +4,8 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import SearchBar from '../SearchBar'
 import logo from '~/assets/images/logo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsisVertical, faUser } from '@fortawesome/free-solid-svg-icons'
-import { NotificationIcon, SidebarIcon, UploadIcon } from '../icons'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
+import { SidebarIcon, UploadIcon } from '../icons'
 import { useGoogleLogin } from '@react-oauth/google'
 import axios from 'axios'
 import UserMenu from '../UserMenu'
@@ -128,9 +128,9 @@ function Header() {
               </>
             ) : (
               <>
-                <button className={cn('menu-btn')}>
+                {/* <button className={cn('menu-btn')}>
                   <FontAwesomeIcon icon={faEllipsisVertical}></FontAwesomeIcon>
-                </button>
+                </button> */}
                 <div className={cn('login-box')}>
                   <div className={cn('login-box-btn')} onClick={() => login()}>
                     <FontAwesomeIcon

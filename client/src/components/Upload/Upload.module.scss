@@ -83,25 +83,6 @@
   margin-bottom: 40px;
 }
 
-.title-box {
-  height: 81px;
-  border: solid 1px #606060;
-  border-radius: 4px;
-  padding: 0 12px 11px;
-
-  &:hover {
-    border-color: var(--text-color);
-  }
-
-  &:focus-within {
-    border-color: var(--blue);
-  }
-
-  &:focus-within .title-text {
-    color: var(--blue);
-  }
-}
-
 .right-form {
   width: 328px;
   height: inherit;
@@ -117,26 +98,6 @@
 .text-input {
   font-size: 16px;
   width: 100%;
-}
-
-.desc-box {
-  height: 165px;
-  border: solid 1px #606060;
-  border-radius: 4px;
-  padding: 0 12px 11px;
-  margin-top: 24px;
-
-  &:hover {
-    border-color: var(--text-color);
-  }
-
-  &:focus-within {
-    border-color: var(--blue);
-  }
-
-  &:focus-within .title-text {
-    color: var(--blue);
-  }
 }
 
 .header-2 {
@@ -157,4 +118,8 @@
   background-color: var(--hover-color);
   color: var(--text-color-darker);
   cursor: default;
+}
+
+.desc-box {
+  margin-top: 24px;
 }

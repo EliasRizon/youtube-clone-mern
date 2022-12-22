@@ -1,7 +1,7 @@
 import classNames from 'classnames/bind'
 import styles from './StudioSidebar.module.scss'
 import { MenuItem } from './Menu'
-import { HomeIcon, HomeIconActive, MyVideosIcon } from '../../icons'
+import { HomeIcon, HomeIconActive } from '../../icons'
 
 const cn = classNames.bind(styles)
 
@@ -42,19 +42,19 @@ function StudioSidebar() {
               icon={<SubcribedIcon />}
             ></MenuItem> */}
           </div>
-          <div className={cn('nav-box')}>
-            {/* <MenuItem
+          {/* <div className={cn('nav-box')}>
+            <MenuItem
               to={'/notyet'}
               title="Cài đặt"
               icon={<WatchedIcon />}
-            ></MenuItem> */}
+            ></MenuItem>
             <MenuItem
               to={'/notyet'}
               title="Gửi phản hồi"
               icon={<MyVideosIcon />}
               unusable
             ></MenuItem>
-          </div>
+          </div> */}
         </nav>
       </div>
     </aside>

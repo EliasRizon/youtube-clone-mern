@@ -1,0 +1,14 @@
+.option-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+  height: 40px;
+  width: 40px;
+  border-radius: 20px;
+
+  &:hover {
+    background-color: var(--hover-color);
+    cursor: pointer;
+  }
+}
