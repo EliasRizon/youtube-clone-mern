@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import { configureStore } from '@reduxjs/toolkit'
 import { reducers } from './reducers'
 import { disableReactDevTools } from '@fvilers/disable-react-devtools'
+import 'moment/locale/vi'
 
 if (process.env.NODE_ENV === 'production') disableReactDevTools()
 
@@ -16,13 +17,13 @@ const store = configureStore({ reducer: reducers })
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>
-    {/* <React.StrictMode> */}
-    <GoogleOAuthProvider clientId="36544663310-pcqsqlhvlllbf1msfi532jda281o613t.apps.googleusercontent.com">
-      <GlobalStyles>
-        <App />
-      </GlobalStyles>
-    </GoogleOAuthProvider>
-    {/* </React.StrictMode> */}
+    <React.StrictMode>
+      <GoogleOAuthProvider clientId="36544663310-pcqsqlhvlllbf1msfi532jda281o613t.apps.googleusercontent.com">
+        <GlobalStyles>
+          <App />
+        </GlobalStyles>
+      </GoogleOAuthProvider>
+    </React.StrictMode>
   </Provider>,
 )
 
