@@ -14,7 +14,6 @@ import {
 import { addWatchedVideo, fetchChannel } from '~/api/api'
 import { ShareIcon } from '~/components/icons'
 import Moment from 'react-moment'
-import 'moment/locale/vi'
 import { signin, sub, unsub } from '~/actions/authActions'
 import SubcribeButton from '~/components/Button/SubcribeButton'
 import LikeButton from '~/components/Button/LikeButton'

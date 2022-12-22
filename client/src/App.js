@@ -3,6 +3,7 @@ import { Fragment } from 'react'
 import { privateRoutes, publicRoutes } from './routes'
 import { DefaultLayout } from './layouts'
 import { ToastContainer } from 'react-toastify'
+import 'moment/locale/vi'
 
 function App() {
   return (
