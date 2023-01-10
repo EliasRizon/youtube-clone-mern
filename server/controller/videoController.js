@@ -1,11 +1,31 @@
 import Video from '../models/Video.js'
+import Comment from '../models/Comment.js'
+import User from '../models/User.js'
 
 export const addVideo = async (req, res, next) => {
-  const newVideo = new Video({ userId: req.userId, ...req.body })
+  const userId = req.userId
+  const video = new Video({ userId, ...req.body })
 
   try {
-    const savedVideo = await newVideo.save()
-    res.status(200).json(savedVideo)
+    video.save()
+    res.status(200).json(video)
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const editVideo = async (req, res, next) => {
+  const { videoId } = req.params
+  const userId = req.userId
+
+  try {
+    const video = await Video.findById(videoId)
+    if (userId === video.userId) {
+      await Video.findByIdAndUpdate(videoId, { ...req.body })
+      res.status(200).json({ message: 'edit successfully' })
+    } else {
+      return next(createError(403, 'You can only edit your video!'))
+    }
   } catch (err) {
     next(err)
   }
@@ -15,7 +35,7 @@ export const fetchVideos = async (req, res) => {
   try {
     const videos = await Video.aggregate([
       { $match: { status: 'approved' } },
-      { $sample: { size: 20 } },
+      { $sample: { size: 500 } },
     ])
 
     res.status(200).json({ data: videos })
@@ -60,38 +80,73 @@ export const getTopView = async (req, res) => {
 
 export const getUserVideos = async (req, res) => {
   const { id } = req.query
+  const { page } = req.query
 
   try {
-    const videos = await Video.find({ userId: id, status: 'approved' })
+    const startIndex = (Number(page) - 1) * 20
+    const total = await Video.find({
+      userId: id,
+      status: 'approved',
+    }).countDocuments({})
 
-    res.status(200).json({ videos })
+    const videos = await Video.find({ userId: id, status: 'approved' })
+      .sort({ createdAt: -1 })
+      .skip(startIndex)
+      .limit(20)
+
+    res
+      .status(200)
+      .json({ data: videos, numberOfPages: Math.ceil(total / 20), total })
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
 }
 
 export const getUserVideosPending = async (req, res) => {
-  const { id } = req.query
+  const { id, page } = req.query
 
   try {
+    const startIndex = (Number(page) - 1) * 20
+    const total = await Video.find({
+      userId: id,
+      status: ['draft', 'pending', 'denied'],
+    }).countDocuments({})
+
     const videos = await Video.find({
       userId: id,
-      status: ['pending', 'denied'],
+      status: ['draft', 'pending', 'denied'],
     })
+      .sort({ createdAt: -1 })
+      .skip(startIndex)
+      .limit(20)
 
-    res.status(200).json({ videos })
+    res
+      .status(200)
+      .json({ data: videos, numberOfPages: Math.ceil(total / 20), total })
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
 }
 
 export const getUserVideosToApproval = async (req, res) => {
+  const { page } = req.query
+
   try {
+    const startIndex = (Number(page) - 1) * 20
+    const total = await Video.find({
+      status: 'pending',
+    }).countDocuments({})
+
     const videos = await Video.find({
       status: 'pending',
     })
+      .sort({ createdAt: 1 })
+      .skip(startIndex)
+      .limit(20)
 
-    res.status(200).json({ videos })
+    res
+      .status(200)
+      .json({ data: videos, numberOfPages: Math.ceil(total / 20), total })
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
@@ -139,26 +194,25 @@ export const deleteVideo = async (req, res, next) => {
     const video = await Video.findById(videoId)
     if (userId === video.userId) {
       await Video.findByIdAndDelete(videoId)
+      await Comment.deleteMany({
+        videoId: videoId,
+      })
+      await User.updateMany(
+        {},
+        {
+          $pull: {
+            likedVideos: {
+              videoId: videoId,
+            },
+            watchedVideos: {
+              videoId: videoId,
+            },
+          },
+        },
+      )
       res.status(200).json({ message: 'delete successfully' })
     } else {
       return next(createError(403, 'You can only delete your video!'))
-    }
-  } catch (err) {
-    next(err)
-  }
-}
-
-export const editVideo = async (req, res, next) => {
-  const { videoId } = req.params
-  const userId = req.userId
-
-  try {
-    const video = await Video.findById(videoId)
-    if (userId === video.userId) {
-      await Video.findByIdAndUpdate(videoId, { ...req.body })
-      res.status(200).json({ message: 'edit successfully' })
-    } else {
-      return next(createError(403, 'You can only edit your video!'))
     }
   } catch (err) {
     next(err)

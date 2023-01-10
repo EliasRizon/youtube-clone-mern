@@ -12,8 +12,14 @@ const cn = classNames.bind(styles)
 function StudioVideoBox({ video }) {
   const [comments, setComments] = useState([])
 
-  const likePercent =
-    (video.likes.length / (video.likes.length + video.dislikes.length)) * 100
+  let likePercent = (
+    (video.likes.length / (video.likes.length + video.dislikes.length)) *
+    100
+  ).toFixed(0)
+
+  if (isNaN(likePercent)) {
+    likePercent = 0
+  }
 
   let videoDuration
 
@@ -59,7 +65,7 @@ function StudioVideoBox({ video }) {
         <Moment format="Do MMM, YYYY">{video.createdAt}</Moment>
       </td>
       <td style={{ textAlign: 'right' }}>{video?.views}</td>
-      <td style={{ textAlign: 'right' }}>{comments.length}</td>
+      <td style={{ textAlign: 'right' }}>{comments.total}</td>
       <td style={{ textAlign: 'right' }}>
         <div>{likePercent ? likePercent : 0}%</div>
         <div style={{ color: 'var(--text-color-darker)' }}>

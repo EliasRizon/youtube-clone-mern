@@ -1,5 +1,5 @@
 import classNames from 'classnames/bind'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { signin, sub, unsub } from '~/actions/authActions'
@@ -24,21 +24,61 @@ function Channel() {
   )
   const dispatch = useDispatch()
   const [videos, setVideos] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isPageLoading, setIsPageLoading] = useState(true)
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
+  const [numberOfPages, setNumberOfPages] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
+
+  const getMoreVideos = useCallback(async () => {
+    if (page >= numberOfPages) {
+      setHasMore(false)
+    }
+    const { data } = await getUserVideos(id, page)
+    setVideos((prev) => prev.concat(data.data))
+    setPage((prev) => ++prev)
+    setNumberOfPages(data.numberOfPages)
+    setIsLoading(false)
+  }, [id, numberOfPages, page])
+
+  const intObserver = useRef()
+
+  const scrollThreshold = useCallback(
+    (comment) => {
+      if (isLoading) return
+
+      if (intObserver.current) intObserver.current.disconnect()
+
+      intObserver.current = new IntersectionObserver((comments) => {
+        if (comments[0].isIntersecting && hasMore) {
+          setIsLoading(true)
+          getMoreVideos()
+        }
+      })
+
+      if (comment) intObserver.current.observe(comment)
+    },
+    [getMoreVideos, hasMore, isLoading],
+  )
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
     const getChannel = async () => {
       const { data } = await fetchChannel(id)
-      setChannel(data)
+      setChannel(data[0])
     }
     getChannel()
     const getdata = async () => {
       const { data } = await getUserVideos(id)
-      setVideos(data.videos)
+      if (data.data.length < 20) {
+        setHasMore(false)
+      }
+      setVideos(data.data)
+      setNumberOfPages(data.numberOfPages)
+      setPage(2)
     }
     getdata()
-    setIsLoading(false)
+    setIsPageLoading(false)
   }, [id, reload])
 
   const handleLogin = useGoogleLogin({
@@ -86,7 +126,7 @@ function Channel() {
     }
   }
 
-  if (isLoading) {
+  if (isPageLoading) {
     return <Loading />
   }
 
@@ -128,6 +168,7 @@ function Channel() {
             <VideoBox key={video._id} video={video} />
           ))}
         </div>
+        <div className={cn('scrollThreshold')} ref={scrollThreshold}></div>
       </div>
     </>
   )

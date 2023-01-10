@@ -33,10 +33,26 @@ export const googleAuth = async (req, res, next) => {
 }
 
 export const getUser = async (req, res) => {
-  const userId = req.params.userId
-
+  const userId = mongoose.Types.ObjectId(req.params.userId)
   try {
-    const user = await User.findById(userId)
+    const user = await User.aggregate([
+      {
+        $match: { _id: userId },
+      },
+      {
+        $project: {
+          name: 1,
+          picture: 1,
+          subscribers: {
+            $cond: {
+              if: { $isArray: '$subscribers' },
+              then: { $size: '$subscribers' },
+              else: 0,
+            },
+          },
+        },
+      },
+    ])
 
     res.status(200).json(user)
   } catch (error) {
@@ -54,11 +70,30 @@ export const like = async (req, res) => {
       $pull: { dislikes: userId },
     })
     await User.findByIdAndUpdate(userId, {
-      $addToSet: {
+      $push: {
         likedVideos: { videoId },
       },
     })
     res.status(200).json({ message: 'Liked' })
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+}
+
+export const unlike = async (req, res) => {
+  const videoId = req.params.videoId
+  const userId = req.userId
+
+  try {
+    await Video.findByIdAndUpdate(videoId, {
+      $pull: { likes: userId },
+    })
+    await User.findByIdAndUpdate(userId, {
+      $pull: {
+        likedVideos: { videoId },
+      },
+    })
+    res.status(200).json({ message: 'Unliked' })
   } catch (error) {
     res.status(404).json({ message: error.message })
   }
@@ -84,16 +119,30 @@ export const dislike = async (req, res) => {
   }
 }
 
+export const undislike = async (req, res) => {
+  const videoId = req.params.videoId
+  const userId = req.userId
+
+  try {
+    await Video.findByIdAndUpdate(videoId, {
+      $pull: { dislikes: userId },
+    })
+    res.status(200).json({ message: 'Undisliked' })
+  } catch (error) {
+    res.status(404).json({ message: error.message })
+  }
+}
+
 export const sub = async (req, res, next) => {
   const userId = req.userId
   const channelId = req.params.channelId
 
   try {
     await User.findByIdAndUpdate(userId, {
-      $push: { subscribedUsers: channelId },
+      $addToSet: { subscribedUsers: channelId },
     })
     await User.findByIdAndUpdate(channelId, {
-      $inc: { subscribers: 1 },
+      $addToSet: { subscribers: userId },
     })
     const updatedUser = await User.findById(userId)
     res.status(200).json(updatedUser)
@@ -111,45 +160,10 @@ export const unsub = async (req, res, next) => {
       $pull: { subscribedUsers: channelId },
     })
     await User.findByIdAndUpdate(channelId, {
-      $inc: { subscribers: -1 },
+      $pull: { subscribers: userId },
     })
     const updatedUser = await User.findById(userId)
     res.status(200).json(updatedUser)
-  } catch (err) {
-    next(err)
-  }
-}
-
-export const getLiked = async (req, res, next) => {
-  const userId = mongoose.Types.ObjectId(req.userId)
-
-  try {
-    const likedVideos = await User.aggregate([
-      {
-        $match: { _id: userId },
-      },
-      {
-        $unwind: '$likedVideos',
-      },
-      { $replaceRoot: { newRoot: '$likedVideos' } },
-      {
-        $sort: { updatedAt: -1 },
-      },
-      { $addFields: { videoObjectId: { $toObjectId: '$videoId' } } },
-      {
-        $lookup: {
-          from: 'videos',
-          localField: 'videoObjectId',
-          foreignField: '_id',
-          as: 'liked',
-        },
-      },
-      {
-        $unwind: '$liked',
-      },
-      { $replaceRoot: { newRoot: '$liked' } },
-    ])
-    res.status(200).json({ data: likedVideos })
   } catch (err) {
     next(err)
   }
@@ -196,10 +210,114 @@ export const addWatchedVideo = async (req, res, next) => {
   }
 }
 
-export const getWatched = async (req, res, next) => {
+export const getLiked = async (req, res, next) => {
   const userId = mongoose.Types.ObjectId(req.userId)
+  const { page } = req.query
 
   try {
+    const startIndex = (Number(page) - 1) * 20
+    const total = await User.aggregate([
+      {
+        $match: { _id: userId },
+      },
+      {
+        $unwind: '$likedVideos',
+      },
+      { $replaceRoot: { newRoot: '$likedVideos' } },
+      {
+        $sort: { updatedAt: -1 },
+      },
+      { $addFields: { videoObjectId: { $toObjectId: '$videoId' } } },
+      {
+        $lookup: {
+          from: 'videos',
+          localField: 'videoObjectId',
+          foreignField: '_id',
+          as: 'liked',
+        },
+      },
+      {
+        $unwind: '$liked',
+      },
+      { $replaceRoot: { newRoot: '$liked' } },
+      {
+        $count: 'count',
+      },
+    ])
+
+    const likedVideos = await User.aggregate([
+      {
+        $match: { _id: userId },
+      },
+      {
+        $unwind: '$likedVideos',
+      },
+      { $replaceRoot: { newRoot: '$likedVideos' } },
+      {
+        $sort: { updatedAt: -1 },
+      },
+      { $addFields: { videoObjectId: { $toObjectId: '$videoId' } } },
+      {
+        $lookup: {
+          from: 'videos',
+          localField: 'videoObjectId',
+          foreignField: '_id',
+          as: 'liked',
+        },
+      },
+      {
+        $unwind: '$liked',
+      },
+      { $replaceRoot: { newRoot: '$liked' } },
+      { $skip: startIndex },
+      { $limit: 20 },
+    ])
+
+    res.status(200).json({
+      data: likedVideos,
+      numberOfPages: Math.ceil(total[0].count / 20),
+      total: total[0].count,
+    })
+  } catch (err) {
+    next(err)
+  }
+}
+
+export const getWatched = async (req, res, next) => {
+  const userId = mongoose.Types.ObjectId(req.userId)
+  const { page } = req.query
+
+  try {
+    const startIndex = (Number(page) - 1) * 20
+    const total = await User.aggregate([
+      {
+        $match: { _id: userId },
+      },
+      {
+        $unwind: '$watchedVideos',
+      },
+      { $replaceRoot: { newRoot: '$watchedVideos' } },
+      {
+        $sort: { updatedAt: -1 },
+      },
+      { $addFields: { videoObjectId: { $toObjectId: '$videoId' } } },
+      {
+        $lookup: {
+          from: 'videos',
+          localField: 'videoObjectId',
+          foreignField: '_id',
+          as: 'watched',
+        },
+      },
+      {
+        $unwind: '$watched',
+      },
+      { $replaceRoot: { newRoot: '$watched' } },
+      {
+        $count: 'count',
+      },
+    ])
+
     const watchedVideos = await User.aggregate([
       {
         $match: { _id: userId },
@@ -224,8 +342,16 @@ export const getWatched = async (req, res, next) => {
         $unwind: '$watched',
       },
       { $replaceRoot: { newRoot: '$watched' } },
+      { $skip: startIndex },
+      { $limit: 20 },
     ])
-    res.status(200).json({ watchedVideos })
+    res
+      .status(200)
+      .json({
+        data: watchedVideos,
+        numberOfPages: Math.ceil(total[0].count / 20),
+        total: total[0].count,
+      })
   } catch (err) {
     next(err)
   }

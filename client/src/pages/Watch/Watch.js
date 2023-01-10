@@ -4,13 +4,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import WatchVideoBoxs from '~/components/Boxs/WatchVideoBoxs/WatchVideoBoxs'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  addView,
-  deleteVideo,
-  dislike,
-  getVideo,
-  like,
-} from '~/actions/videoActions'
+import { addView, deleteVideo, getVideo } from '~/actions/videoActions'
 import { addWatchedVideo, fetchChannel } from '~/api/api'
 import { ShareIcon } from '~/components/icons'
 import Moment from 'react-moment'
@@ -41,13 +35,6 @@ function Watch() {
   const dispatch = useDispatch()
 
   const videoId = searchParams.get('v')
-
-  const handleLike = async () => {
-    dispatch(like(video._id, currentUser.result._id))
-  }
-  const handleDislike = async () => {
-    dispatch(dislike(video._id, currentUser.result._id))
-  }
 
   const handleSub = async () => {
     if (currentUser?.result.subscribedUsers.includes(channel._id)) {
@@ -143,7 +130,7 @@ function Watch() {
     if (video?.userId) {
       const getChannel = async () => {
         const { data } = await fetchChannel(video?.userId)
-        setChannel(data)
+        setChannel(data[0])
       }
       getChannel()
     }
@@ -180,7 +167,7 @@ function Watch() {
             className={cn('video-player')}
             src={video.videoUrl}
             controls
-            autoPlay
+            // autoPlay
           ></video>
         }
         <div className={cn('video-info-wrapper')}>
@@ -229,8 +216,6 @@ function Watch() {
               <LikeButton
                 video={video}
                 currentUser={currentUser}
-                handleLike={handleLike}
-                handleDislike={handleDislike}
                 handleLogin={handleLogin}
               />
               <button className={cn('share-btn')} onClick={handleShare}>

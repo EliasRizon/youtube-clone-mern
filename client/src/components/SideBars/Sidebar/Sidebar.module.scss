@@ -22,10 +22,12 @@
   border-top: 1px solid;
   border-color: #2c2c2c;
   margin-top: 12px;
+  width: 204px;
 }
 
 .footer-box {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   padding: 16px 12px 0;
 }

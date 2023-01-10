@@ -23,7 +23,7 @@ function PreviewImg({ imgPerc, inputs, setImg }) {
         />
       </div>
     )
-  } else if (imgPerc === 100) {
+  } else if (imgPerc >= 100) {
     return (
       <div
         className={cn('wrapper')}

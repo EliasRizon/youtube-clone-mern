@@ -6,6 +6,8 @@ import {
   LIKE,
   RELOAD,
   START_LOADING,
+  UNDISLIKE,
+  UNLIKE,
 } from '~/constants/actionsTypes.js'
 import * as api from '../api/api.js'
 
@@ -34,15 +36,6 @@ export const getVideo = (videoId) => async (dispatch) => {
   }
 }
 
-export const addVideo = (formData) => async (dispatch) => {
-  try {
-    await api.addVideo(formData)
-    dispatch({ type: RELOAD })
-  } catch (error) {
-    console.log(error)
-  }
-}
-
 export const editVideo = (videoId, formData) => async (dispatch) => {
   try {
     await api.editVideo(videoId, formData)
@@ -61,10 +54,28 @@ export const like = (videoId, userId) => async (dispatch) => {
   }
 }
 
+export const unlike = (videoId, userId) => async (dispatch) => {
+  try {
+    await api.unlike(videoId)
+    dispatch({ type: UNLIKE, payload: userId })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export const dislike = (videoId, userId) => async (dispatch) => {
   try {
     await api.dislike(videoId)
     dispatch({ type: DISLIKE, payload: userId })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export const undislike = (videoId, userId) => async (dispatch) => {
+  try {
+    await api.undislike(videoId)
+    dispatch({ type: UNDISLIKE, payload: userId })
   } catch (error) {
     console.log(error)
   }

@@ -17,10 +17,22 @@ export const addComment = async (req, res, next) => {
 
 export const getComments = async (req, res, next) => {
   const { videoId } = req.params
+  const { page } = req.query
 
   try {
-    const comments = await Comment.find({ videoId }).sort({ createdAt: -1 })
-    res.status(200).json(comments)
+    const startIndex = (Number(page) - 1) * 20
+    const total = await Comment.find({ videoId }).countDocuments({})
+
+    const comments = await Comment.find({
+      videoId,
+    })
+      .sort({ createdAt: -1 })
+      .skip(startIndex)
+      .limit(20)
+
+    res
+      .status(200)
+      .json({ data: comments, numberOfPages: Math.ceil(total / 20), total })
   } catch (err) {
     next(err)
   }

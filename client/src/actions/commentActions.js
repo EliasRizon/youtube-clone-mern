@@ -9,10 +9,9 @@ export const addComment = (comment, videoId, setUpdate) => async (dispatch) => {
   }
 }
 
-export const deleteComment = (commentId, setUpdate, notify) => async () => {
+export const deleteComment = (commentId, notify) => async () => {
   try {
     await api.deleteComment(commentId)
-    setUpdate((preState) => !preState)
     notify()
   } catch (error) {
     console.log(error)

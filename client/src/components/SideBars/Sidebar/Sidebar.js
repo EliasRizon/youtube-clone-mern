@@ -149,12 +149,6 @@ function Sidebar() {
             icon={<HelpIcon />}
             unusable
           ></MenuItem>
-          <MenuItem
-            to={'/notyet'}
-            title="Gửi phản hồi"
-            icon={<FeedbackIcon />}
-            unusable
-          ></MenuItem>
         </div> */}
       </nav>
       <div className={cn('footer')}>
@@ -168,9 +162,9 @@ function Sidebar() {
         </div>
         <div className={cn('footer-box')} style={{ padding: '16px 12px' }}>
           <div className={cn('footer-link')}>Một sản phẩm của:</div>
-          <div className={cn('footer-link')}>Ngô Văn Thuần</div>
           <div className={cn('footer-link')}>Trịnh Thị Anh</div>
           <div className={cn('footer-link')}>Bùi Quang Thắng</div>
+          <div className={cn('footer-link')}>Ngô Văn Thuần</div>
         </div>
       </div>
     </aside>

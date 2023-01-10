@@ -4,10 +4,14 @@ import classNames from 'classnames/bind'
 
 const cn = classNames.bind(styles)
 
-function Loading() {
+function Loading({ mgt = '165px', size = '5em' }) {
   return (
     <div className={cn('loadingPaper')}>
-      <CircularProgress className={cn('circularProgress')} size="5em" />
+      <CircularProgress
+        className={cn('circularProgress')}
+        size={size}
+        style={{ marginTop: mgt }}
+      />
     </div>
   )
 }

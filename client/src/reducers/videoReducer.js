@@ -7,6 +7,8 @@ import {
   LIKE,
   RELOAD,
   START_LOADING,
+  UNDISLIKE,
+  UNLIKE,
 } from '~/constants/actionsTypes'
 
 const videoReducer = (
@@ -40,6 +42,17 @@ const videoReducer = (
       }
       return { ...archive }
     }
+    case UNLIKE: {
+      let archive = structuredClone(state)
+
+      if (archive.video.likes.includes(action.payload)) {
+        archive.video.likes.splice(
+          archive.video.likes.findIndex((userId) => userId === action.payload),
+          1,
+        )
+      }
+      return { ...archive }
+    }
     case DISLIKE: {
       let archive = structuredClone(state)
 
@@ -47,6 +60,19 @@ const videoReducer = (
         archive.video.dislikes.push(action.payload)
         archive.video.likes.splice(
           archive.video.likes.findIndex((userId) => userId === action.payload),
+          1,
+        )
+      }
+      return { ...archive }
+    }
+    case UNDISLIKE: {
+      let archive = structuredClone(state)
+
+      if (archive.video.dislikes.includes(action.payload)) {
+        archive.video.dislikes.splice(
+          archive.video.dislikes.findIndex(
+            (userId) => userId === action.payload,
+          ),
           1,
         )
       }

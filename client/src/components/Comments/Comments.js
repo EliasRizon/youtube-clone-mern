@@ -1,35 +1,53 @@
 import styles from './Comments.module.scss'
 import classNames from 'classnames/bind'
 import unName from '~/assets/images/unnamed.jpg'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { addComment } from '~/actions/commentActions'
 import { getComments } from '~/api/api'
 import Comment from './Comment'
 import { toast } from 'react-toastify'
+import Loading from '../Loading'
 
 const cn = classNames.bind(styles)
 
 function Comments({ videoId, currentUser, handleLogin }) {
-  const [comments, setComments] = useState([])
-  const [comment, setComment] = useState('')
   const [open, setOpen] = useState(false)
   const dispatch = useDispatch()
-  const [update, setUpdate] = useState(false)
+  const [comments, setComments] = useState([])
+  const [comment, setComment] = useState('')
+  const [numOfComments, setNumOfComments] = useState(0)
+  const [page, setPage] = useState(1)
+  const [hasMore, setHasMore] = useState(true)
+  const [numberOfPages, setNumberOfPages] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleComment = async () => {
-    dispatch(addComment(comment, videoId, setUpdate))
+    dispatch(addComment(comment, videoId))
     setComment('')
     setOpen(false)
-  }
-
-  useEffect(() => {
     const Comments = async () => {
       const { data } = await getComments(videoId)
-      setComments(data)
+      setComments(data.data)
+      setNumOfComments((prev) => ++prev)
+      setNumberOfPages(data.numberOfPages)
+      setPage(2)
+      setHasMore(true)
     }
     Comments()
-  }, [videoId, update])
+  }
+
+  const getMoreComments = useCallback(async () => {
+    if (page >= numberOfPages) {
+      setHasMore(false)
+    }
+    const { data } = await getComments(videoId, page)
+    setComments((prev) => prev.concat(data.data))
+    setPage((prev) => ++prev)
+    setNumOfComments(data.total)
+    setNumberOfPages(data.numberOfPages)
+    setIsLoading(false)
+  }, [numberOfPages, page, videoId])
 
   const notify = () =>
     toast.success('Xóa bình luận thành công.', {
@@ -55,10 +73,44 @@ function Comments({ videoId, currentUser, handleLogin }) {
       theme: 'light',
     })
 
+  const intObserver = useRef()
+
+  const scrollThreshold = useCallback(
+    (comment) => {
+      if (isLoading) return
+
+      if (intObserver.current) intObserver.current.disconnect()
+
+      intObserver.current = new IntersectionObserver((comments) => {
+        if (comments[0].isIntersecting && hasMore) {
+          setIsLoading(true)
+          getMoreComments()
+        }
+      })
+
+      if (comment) intObserver.current.observe(comment)
+    },
+    [getMoreComments, hasMore, isLoading],
+  )
+
+  useEffect(() => {
+    const Comments = async () => {
+      const { data } = await getComments(videoId)
+      if (data.data.length < 20) {
+        setHasMore(false)
+      }
+      setComments(data.data)
+      setNumOfComments(data.total)
+      setNumberOfPages(data.numberOfPages)
+      setPage(2)
+    }
+    Comments()
+  }, [videoId])
+
   return (
     <>
       <div className={cn('comment-header')}>
-        <span className={cn('numof-comment')}>{comments.length} bình luận</span>
+        <span className={cn('numof-comment')}>{numOfComments} bình luận</span>
       </div>
       <div className={cn('comment-box')}>
         <div className={cn('user-comment-wrap')}>
@@ -128,12 +180,16 @@ function Comments({ videoId, currentUser, handleLogin }) {
             key={comment._id}
             comment={comment}
             currentUser={currentUser}
-            setUpdate={setUpdate}
             notify={notify}
             notify2={notify2}
             videoId={videoId}
+            comments={comments}
+            setComments={setComments}
+            setNumOfComments={setNumOfComments}
           />
         ))}
+        {isLoading && <Loading mgt="0px" size="3em" />}
+        <div className={cn('scrollThreshold')} ref={scrollThreshold}></div>
       </div>
     </>
   )

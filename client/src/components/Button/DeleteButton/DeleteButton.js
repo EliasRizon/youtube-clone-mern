@@ -22,11 +22,15 @@ function DeleteButton({ video, className, handle }) {
   const dispatch = useDispatch()
 
   const handleDelete = () => {
-    const videoRef = ref(storage, video.videoPath)
-    const imageRef = ref(storage, video.imgPath)
     try {
-      deleteObject(videoRef)
-      deleteObject(imageRef)
+      if (video?.videoPath) {
+        const videoRef = ref(storage, video.videoPath)
+        deleteObject(videoRef)
+      }
+      if (video?.imgPath) {
+        const imageRef = ref(storage, video.imgPath)
+        deleteObject(imageRef)
+      }
       dispatch(deleteVideo(video._id))
       notify()
     } catch (error) {

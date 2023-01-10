@@ -8,7 +8,7 @@ const VideoSchema = new mongoose.Schema(
     },
     title: {
       type: String,
-      required: true,
+      default: 'Video không có tiêu đề',
     },
     desc: {
       type: String,
@@ -20,19 +20,19 @@ const VideoSchema = new mongoose.Schema(
     },
     imgUrl: {
       type: String,
-      required: true,
+      default: '',
     },
     imgPath: {
       type: String,
-      required: true,
+      default: '',
     },
     videoUrl: {
       type: String,
-      required: true,
+      default: '',
     },
     videoPath: {
       type: String,
-      required: true,
+      default: '',
     },
     views: {
       type: Number,
@@ -48,7 +48,7 @@ const VideoSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'pending',
+      default: 'trash',
     },
   },
   { timestamps: true },

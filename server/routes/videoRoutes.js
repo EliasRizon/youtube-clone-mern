@@ -19,10 +19,12 @@ const router = express.Router()
 
 router.post('/approval/approve/:videoId', auth, approveVideo)
 router.post('/approval/deny/:videoId', auth, denyVideo)
-router.delete('/delete/:videoId', auth, deleteVideo)
-router.patch('/addview/:id', addView)
 router.post('/edit/:videoId', auth, editVideo)
 router.post('/add', auth, addVideo)
+
+router.delete('/delete/:videoId', auth, deleteVideo)
+
+router.patch('/addview/:id', addView)
 
 router.get('/author/pending', getUserVideosPending)
 router.get('/search', getVideosBySearch)

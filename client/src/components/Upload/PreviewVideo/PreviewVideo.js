@@ -21,7 +21,7 @@ function PreviewVideo({ videoPerc, inputs, setVideo }) {
         />
       </div>
     )
-  } else if (videoPerc === 100) {
+  } else if (videoPerc >= 100) {
     return (
       <div className={cn('wrapper', 'preview-wrapper')}>
         <video

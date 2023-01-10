@@ -62,8 +62,8 @@ function Header() {
   const logout = useCallback(() => {
     dispatch({ type: LOGOUT })
     setCurrentUser(null)
-    navigate('/')
-  }, [dispatch, navigate])
+    window.location.href = `/`
+  }, [dispatch])
 
   useEffect(() => {
     setCurrentUser(JSON.parse(localStorage.getItem('profile')))

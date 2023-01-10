@@ -24,7 +24,7 @@ function ApprovalVideoBox({ video }) {
     if (video?.userId) {
       const getChannel = async () => {
         const { data } = await fetchChannel(video?.userId)
-        setChannel(data)
+        setChannel(data[0])
       }
       getChannel()
     }

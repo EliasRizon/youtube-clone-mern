@@ -21,7 +21,7 @@ function SearchVideoBox({ video }) {
   useEffect(() => {
     const getChannel = async () => {
       const { data } = await fetchChannel(video.userId)
-      setChannel(data)
+      setChannel(data[0])
     }
     getChannel()
   }, [video.userId])

@@ -8,16 +8,19 @@ import { DeleteIcon, FeedbackIcon } from '~/components/icons'
 import { useDispatch } from 'react-redux'
 import { deleteComment } from '~/actions/commentActions'
 import ConfirmOverlay from '~/components/ConfirmOverlay'
+import Moment from 'react-moment'
 
 const cn = classNames.bind(styles)
 
 function Comment({
   comment,
   currentUser,
-  setUpdate,
   notify,
   notify2,
   videoId,
+  comments,
+  setComments,
+  setNumOfComments,
 }) {
   const [channel, setChannel] = useState({})
   const [open, setOpen] = useState(false)
@@ -29,13 +32,15 @@ function Comment({
   useEffect(() => {
     const getChannel = async () => {
       const { data } = await fetchChannel(comment.userId)
-      setChannel(data)
+      setChannel(data[0])
     }
     getChannel()
   }, [comment.userId])
 
   const handleDelete = () => {
-    dispatch(deleteComment(comment._id, setUpdate, notify))
+    dispatch(deleteComment(comment._id, notify))
+    setComments(comments.filter((item) => item._id !== comment._id))
+    setNumOfComments((prev) => --prev)
   }
 
   const handleReport = () => {
@@ -55,7 +60,12 @@ function Comment({
                 alt="UserImg"
               />
               <div className={cn('detail-wrap')}>
-                <div className={cn('user-name')}>{channel.name}</div>
+                <div className={cn('detail-top')}>
+                  <div className={cn('user-name')}>{channel.name}</div>
+                  <div className={cn('moment')}>
+                    <Moment fromNow>{comment.createdAt}</Moment>
+                  </div>
+                </div>
                 <div className={cn('comment')}>{comment.desc}</div>
               </div>
             </div>
