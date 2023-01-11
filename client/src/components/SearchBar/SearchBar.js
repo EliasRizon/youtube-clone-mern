@@ -2,7 +2,11 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import classNames from 'classnames/bind'
 import { useEffect, useState } from 'react'
-import { createSearchParams, useNavigate } from 'react-router-dom'
+import {
+  createSearchParams,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom'
 import { useDebounce } from 'use-debounce'
 import { getSearchResult } from '~/api/api'
 import { SearchIcon } from '../icons'
@@ -16,22 +20,29 @@ function SearchBar() {
   const [searchResult, setSearchResult] = useState([])
   const [debouncedValue] = useDebounce(searchValue, 200)
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault()
-      e.target.blur()
       if (searchValue.length > 0) {
+        e.target.blur()
         navigate({
           pathname: '/results',
           search: `?${createSearchParams({
             search_query: searchValue.trim(),
           })}`,
         })
-        setSearchValue((prev) => prev.trim())
       }
     }
   }
+
+  useEffect(() => {
+    const searchQuery = searchParams.get('search_query')
+    if (searchQuery) {
+      setSearchValue(searchQuery)
+    }
+  }, [searchParams])
 
   useEffect(() => {
     if (!debouncedValue.trim()) {
